@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import {
+  Section,
+  Title,
+  List,
+  Item,
+  ItemTitle,
+  Button,
+} from './ShopItems.styled';
 
 const ShopItems = () => {
   const [itemsList, setItemsList] = useState([]);
@@ -21,22 +29,26 @@ const ShopItems = () => {
     };
 
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [itemsList]);
+  }, [title]);
 
   return (
-    <section>
-      <h2>Items</h2>
+    <Section>
+      <Title>Items</Title>
       {itemsList ? (
-        <ul>
+        <List>
           {itemsList.map((item, index) => (
-            <li key={index}>{item.title}</li>
+            <Item key={index}>
+              <ItemTitle>{item.title}</ItemTitle>
+              <p>{item.description}</p>
+              <p>${item.price}</p>
+              <Button type="button">Add to Cart</Button>
+            </Item>
           ))}
-        </ul>
+        </List>
       ) : (
         <p>Nothing here</p>
       )}
-    </section>
+    </Section>
   );
 };
 

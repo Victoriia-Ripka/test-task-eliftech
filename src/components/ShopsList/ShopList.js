@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { Aside, Title, List, Item } from './ShopList.styled';
 
 const ShopList = () => {
   const [shops, setShops] = useState([]);
@@ -22,22 +23,22 @@ const ShopList = () => {
     [];
 
   return (
-    <aside>
-      <h2>Shops:</h2>
+    <Aside>
+      <Title>Shops:</Title>
       {shops ? (
-        <ul>
+        <List>
           {shops.map((shop, index) => {
             return (
-              <li key={index}>
+              <Item key={index}>
                 <Link to={`${shop.title}`}>{shop.title}</Link>
-              </li>
+              </Item>
             );
           })}
-        </ul>
+        </List>
       ) : (
         <></>
       )}
-    </aside>
+    </Aside>
   );
 };
 
