@@ -1,12 +1,7 @@
 const { Schema, model } = require('mongoose');
 
 const itemSchema = new Schema({
-  title: {
-    type: String,
-    minlength: 2,
-    maxlength: 30,
-    required: true,
-  },
+  title: String,
   price: Number,
   description: String,
   quantity: Number,
@@ -20,3 +15,4 @@ const itemSchema = new Schema({
 const Items = model('items', itemSchema);
 
 module.exports = Items;
+// , 'items'

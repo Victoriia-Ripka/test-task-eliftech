@@ -1,4 +1,5 @@
-const Shops = require('../models/shop');
+const Shops = require('../models/Shop');
+const Items = require('../models/Items');
 const ctrlWrapper = require('../helpers/ctrlWrapper');
 const httpError = require('../helpers/httpError');
 
@@ -10,7 +11,14 @@ const getAllShops = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getShopItems = async (req, res) => {};
+const getShopItems = async (req, res) => {
+  const { title } = req.params;
+
+  const shop = await Shops.findOne({ title });
+  const items = await Items.find({ owner: shop._id });
+
+  res.status(200).json(items);
+};
 
 const addItemToCart = async (req, res) => {};
 
