@@ -15,4 +15,3 @@ const itemSchema = new Schema({
 const Items = model('items', itemSchema);
 
 module.exports = Items;
-// , 'items'

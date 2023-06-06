@@ -9,10 +9,12 @@ const ShopItems = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/api/shops/${title}`
-        );
-        setItemsList(response.data);
+        if (title) {
+          const response = await axios.get(
+            `http://localhost:8080/api/shops/${title}`
+          );
+          setItemsList(response.data);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -20,7 +22,7 @@ const ShopItems = () => {
 
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [itemsList]);
 
   return (
     <section>
