@@ -40,8 +40,8 @@ export const Button = styled.button`
   height: 36px;
   width: 120px;
   margin-top: 10px;
-  background: transparent;
   cursor: pointer;
+  background: ${({ isActive }) => (isActive ? 'white' : 'green')}
 
   transition: all 0.3s ease;
 

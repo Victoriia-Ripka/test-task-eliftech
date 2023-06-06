@@ -1,9 +1,12 @@
-import React from 'react'
+import React from 'react';
+import Form from 'components/Form/Form';
 
 const Cart = () => {
   return (
-    <div>Cart</div>
-  )
-}
+    <>
+      <Form />
+    </>
+  );
+};
 
-export default Cart
+export default Cart;
