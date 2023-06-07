@@ -11,6 +11,10 @@ import {
   Button,
 } from './ShopItems.styled';
 
+const url = process.env.BASEURL
+  ? process.env.BASEURL
+  : 'https://test-task-eliftech.onrender.com/';
+
 const ShopItems = () => {
   const [itemsList, setItemsList] = useState([]);
   const [usersItems, setUsersItems] = useState(
@@ -23,9 +27,7 @@ const ShopItems = () => {
     const fetchData = async () => {
       try {
         if (title) {
-          const response = await axios.get(
-            `http://localhost:8080/api/shops/${title}`
-          );
+          const response = await axios.get(`${url}api/shops/${title}`);
           setItemsList(response.data);
         }
       } catch (error) {
@@ -48,7 +50,6 @@ const ShopItems = () => {
         <List>
           {itemsList.map((item, index) => {
             const isActive = usersItems.includes(item._id);
-            console.log(isActive);
             return (
               <Item key={index}>
                 <ItemTitle>{item.title}</ItemTitle>

@@ -36,14 +36,35 @@ export const TextInput = styled.textarea`
 
 export const CartContainer = styled.div`
   width: 30vw;
-  height: 50vh;
+  height: 428px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 export const Title = styled.h2`
   text-align: center;
   font-weight: 600;
-  margin-bottom: 50px;
 `;
+
+export const List = styled.ul`
+  width: 100%;
+  height: 260px;
+  overflow: auto;
+`;
+
+export const Item = styled.li`
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 100%;
+  height: 100px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+`;
+
+export const Text = styled.p``;
 
 export const Button = styled.button`
   background-color: #04aa6d;
@@ -54,7 +75,7 @@ export const Button = styled.button`
   margin: 4px 2px;
   cursor: pointer;
   display: block;
-  margin: 0 auto 50px;
+  margin: 30px auto 50px;
 
   transition: all 0.3s ease;
 

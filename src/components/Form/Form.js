@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ContentContainer,
   CartContainer,
@@ -7,13 +7,23 @@ import {
   TextInput,
   Input,
   Title,
+  List,
+  Item,
+  Text,
 } from './Form.styled';
+import axios from 'axios';
+
+const url = process.env.BASEURL
+  ? process.env.BASEURL
+  : 'https://test-task-eliftech.onrender.com/';
 
 const FormComponent = () => {
   // eslint-disable-next-line no-unused-vars
   const [usersItems, setUsersItems] = useState(
     JSON.parse(localStorage.getItem('id')) || []
   );
+
+  const [cartList, setCartList] = useState([]);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -28,6 +38,26 @@ const FormComponent = () => {
     phone: '',
     address: '',
   });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const queryList = usersItems.join(',');
+      if (queryList) {
+        try {
+          const data = await axios.get(`${url}api/user-cart`, {
+            params: {
+              items: queryList,
+            },
+          });
+          setCartList(data.data);
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    };
+
+    fetchData();
+  }, [usersItems]);
 
   const handleChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -66,6 +96,16 @@ const FormComponent = () => {
       setFormData({ name: '', email: '', phone: '', address: '' });
       setErrors({});
     }
+  };
+
+  const removeItem = id => {
+    const index = usersItems.indexOf(id);
+    if (index !== -1) {
+      usersItems.splice(index, 1);
+    }
+
+    localStorage.setItem('id', JSON.stringify(usersItems));
+    setUsersItems(usersItems);
   };
 
   return (
@@ -124,17 +164,32 @@ const FormComponent = () => {
           </div>
           <CartContainer>
             <Title>Your Cart</Title>
-            <ul>
-              {usersItems.map((item, index) => {
+            <List>
+              {cartList.map((item, index) => {
                 return (
-                  <li key={index}>
-                    <p>{item.title}</p>
-                    <p>${item.price}</p>
-                  </li>
+                  <Item key={index}>
+                    <div>
+                      <Text>{item.title}</Text>
+                      <Text>${item.price}</Text>
+                    </div>
+                    <div>
+                      <button
+                        type="button"
+                        onClick={() => removeItem(item._id)}
+                      >
+                        delete
+                      </button>
+                    </div>
+                  </Item>
                 );
               })}
-            </ul>
-            <p>Total price: {}</p>
+            </List>
+            <p>
+              Total price:{' '}
+              {cartList.reduce((accumulator, item) => {
+                return accumulator + item.price;
+              }, 0)}
+            </p>
           </CartContainer>
         </ContentContainer>
         <Button type="submit">Submit</Button>

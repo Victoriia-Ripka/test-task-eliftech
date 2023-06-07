@@ -3,6 +3,10 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Aside, Title, List, Item } from './ShopList.styled';
 
+const url = process.env.BASEURL
+  ? process.env.BASEURL
+  : 'https://test-task-eliftech.onrender.com/';
+
 const ShopList = () => {
   const [shops, setShops] = useState([]);
 
@@ -10,7 +14,7 @@ const ShopList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/shops');
+        const response = await axios.get(`${url}api/shops`);
         setShops(response.data);
       } catch (error) {
         console.log(error);

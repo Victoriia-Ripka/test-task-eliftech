@@ -20,10 +20,8 @@ const getShopItems = async (req, res) => {
   res.status(200).json(items);
 };
 
-const addItemToCart = async (req, res) => {};
 
 module.exports = {
   getAllShops: ctrlWrapper(getAllShops),
   getShopItems: ctrlWrapper(getShopItems),
-  addItemToCart: ctrlWrapper(addItemToCart),
 };
