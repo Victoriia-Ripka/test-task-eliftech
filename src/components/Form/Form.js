@@ -19,6 +19,8 @@ const url = process.env.BASEURL
 
 const FormComponent = ({ cartList, setCartList }) => {
   const [cart, setCart] = useState([]);
+  const [quantity, setQuantity] = useState([]);
+  console.log(cartList, cart);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -52,6 +54,7 @@ const FormComponent = ({ cartList, setCartList }) => {
     };
 
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cartList, cart]);
 
   const handleChange = e => {
@@ -87,22 +90,25 @@ const FormComponent = ({ cartList, setCartList }) => {
     } else {
       // Form is valid, submit the data
       console.log(formData);
-      // Reset the form
+
       setFormData({ name: '', email: '', phone: '', address: '' });
       setErrors({});
+      setCartList([]);
+      setCart([]);
     }
   };
 
   const removeItem = id => {
-    const index = cartList.indexOf(id);
-    if (index !== -1) {
-      cart.splice(index, 1);
-      cartList.splice(index, 1);
-    }
+    const updatedCart = cart.filter(item => item._id !== id);
+    const updatedCartList = cartList.filter(itemId => itemId !== id);
 
-    setCart(cart);
-    setCartList(cartList);
+    setCart(updatedCart);
+    setCartList(updatedCartList);
   };
+
+  const handleDecrement = () => {};
+
+  const handleIncrement = () => {};
 
   return (
     <section>
@@ -175,6 +181,15 @@ const FormComponent = ({ cartList, setCartList }) => {
                       >
                         delete
                       </button>
+                      {/* <div>
+                        <button type="button" onClick={handleDecrement}>
+                          Minus
+                        </button>
+                        <input type="text" />
+                        <button type="button" onClick={handleIncrement}>
+                          Add
+                        </button>
+                      </div> */}
                     </div>
                   </Item>
                 );
