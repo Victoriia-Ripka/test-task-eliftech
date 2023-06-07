@@ -1,10 +1,10 @@
 import React from 'react';
-import Form from 'components/Form/Form';
+import FormComponent from 'components/Form/Form';
 
-const Cart = () => {
+const Cart = ({ cartList, setCartList }) => {
   return (
     <>
-      <Form />
+      <FormComponent cartList={cartList} setCartList={setCartList} />
     </>
   );
 };

@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import {
@@ -15,12 +15,8 @@ const url = process.env.BASEURL
   ? process.env.BASEURL
   : 'https://test-task-eliftech.onrender.com/';
 
-const ShopItems = () => {
-  const [itemsList, setItemsList] = useState([]);
-  const [usersItems, setUsersItems] = useState(
-    JSON.parse(localStorage.getItem('id')) || []
-  );
-
+const ShopItems = ({ cartList, setCartList }) => {
+  const [itemsList, setItemsList] = React.useState([]);
   const { title } = useParams();
 
   useEffect(() => {
@@ -36,11 +32,11 @@ const ShopItems = () => {
     };
 
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [title]);
 
   const handleClick = id => {
-    usersItems.push(id);
-    localStorage.setItem('id', JSON.stringify(usersItems));
+    setCartList(prev => [...prev, id]);
   };
 
   return (
@@ -49,7 +45,6 @@ const ShopItems = () => {
       {itemsList ? (
         <List>
           {itemsList.map((item, index) => {
-            const isActive = usersItems.includes(item._id);
             return (
               <Item key={index}>
                 <ItemTitle>{item.title}</ItemTitle>
@@ -57,7 +52,7 @@ const ShopItems = () => {
                 <p>${item.price}</p>
                 <Button
                   type="button"
-                  isActive={isActive}
+                  disabled={cartList && cartList.includes(item._id)}
                   onClick={() => handleClick(item._id)}
                 >
                   Add to Cart

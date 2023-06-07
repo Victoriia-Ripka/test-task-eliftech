@@ -17,13 +17,8 @@ const url = process.env.BASEURL
   ? process.env.BASEURL
   : 'https://test-task-eliftech.onrender.com/';
 
-const FormComponent = () => {
-  // eslint-disable-next-line no-unused-vars
-  const [usersItems, setUsersItems] = useState(
-    JSON.parse(localStorage.getItem('id')) || []
-  );
-
-  const [cartList, setCartList] = useState([]);
+const FormComponent = ({ cartList, setCartList }) => {
+  const [cart, setCart] = useState([]);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -41,7 +36,7 @@ const FormComponent = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const queryList = usersItems.join(',');
+      const queryList = cartList.join(',');
       if (queryList) {
         try {
           const data = await axios.get(`${url}api/user-cart`, {
@@ -49,7 +44,7 @@ const FormComponent = () => {
               items: queryList,
             },
           });
-          setCartList(data.data);
+          setCart(data.data);
         } catch (err) {
           console.log(err);
         }
@@ -57,7 +52,7 @@ const FormComponent = () => {
     };
 
     fetchData();
-  }, [usersItems]);
+  }, [cartList, cart]);
 
   const handleChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -99,13 +94,14 @@ const FormComponent = () => {
   };
 
   const removeItem = id => {
-    const index = usersItems.indexOf(id);
+    const index = cartList.indexOf(id);
     if (index !== -1) {
-      usersItems.splice(index, 1);
+      cart.splice(index, 1);
+      cartList.splice(index, 1);
     }
 
-    localStorage.setItem('id', JSON.stringify(usersItems));
-    setUsersItems(usersItems);
+    setCart(cart);
+    setCartList(cartList);
   };
 
   return (
@@ -165,7 +161,7 @@ const FormComponent = () => {
           <CartContainer>
             <Title>Your Cart</Title>
             <List>
-              {cartList.map((item, index) => {
+              {cart.map((item, index) => {
                 return (
                   <Item key={index}>
                     <div>
@@ -186,7 +182,7 @@ const FormComponent = () => {
             </List>
             <p>
               Total price:{' '}
-              {cartList.reduce((accumulator, item) => {
+              {cart.reduce((accumulator, item) => {
                 return accumulator + item.price;
               }, 0)}
             </p>
